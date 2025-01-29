@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+
+@layer components {
+    .header-container {
+      @apply bg-gray-800 text-white;
+    }
+  
+    .header-logo img {
+      @apply h-auto w-[100px]; /* Adjust the height of the logo */
+    }
+  
+    .nav-link {
+      @apply hover:text-yellow-500;
+    }
+  
+    .nav-button {
+      @apply bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded;
+    }
+  
+    .group:hover .group-hover\\:block {
+      display: block;
+    }
+  
+    .dropdown-content a {
+      @apply block px-4 py-2 text-gray-800 hover:bg-gray-100;
+    }
+  
+    .welcome-section {
+      @apply bg-green-100 py-10 text-center;
+    }
+  
+    .welcome-text {
+      @apply text-gray-700 text-lg;
+    }
+  
+    .category-card {
+      @apply bg-white rounded-lg shadow-lg overflow-hidden relative transition-transform duration-300 transform hover:scale-105 hover:shadow-lg;
+    }
+  
+    .category-image {
+      @apply w-full h-auto object-cover;
+    }
+  
+    .category-content {
+      @apply p-6 text-center;
+    }
+  
+    .category-title {
+      @apply text-2xl font-bold mb-4;
+    }
+  
+    .category-button {
+      @apply bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded;
+    }
+  
+    .inputReg{
+      @apply w-full px-4 py-2 rounded-lg border-gray-300 focus:ring-2 focus:ring-green-500;
+    }
+
+     /*Admin page dashboard*/
+
+    .admin-dash-nav{
+      @apply hover:bg-green-600 py-2 px-4 rounded;
+    }
+  }
+  
+ 
