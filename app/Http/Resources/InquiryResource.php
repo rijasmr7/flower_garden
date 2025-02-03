@@ -16,7 +16,7 @@ class InquiryResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'customer' => new CustomerResource($this->whenLoaded('customer')),
+            'user' => new UserResource($this->whenLoaded('user')),
             'name' => $this->name,
             'phone' => $this->phone,
             'address' => $this->address,

@@ -19,6 +19,7 @@ use App\Http\Controllers\Front\PaymentController;
 use App\Http\Controllers\Front\GardeningController;
 use App\Http\Controllers\Front\WishlistController;
 use App\Http\Controllers\Front\TextusController;
+use App\Http\Controllers\Front\ReviewController;
 use App\Http\Controllers\Front\Controller;
 use App\Livewire\AdminLogin;
 use App\Livewire\UserLogin;
@@ -185,14 +186,6 @@ Route::delete('inquiries/{inquiry}', [TextusController::class, 'destroy'])->name
 
 
 
-
-Route::post('/toggle-dark-mode', function (Request $request) {
-    $darkMode = $request->session()->get('dark_mode', false);
-    $request->session()->put('dark_mode', !$darkMode);
-    return response()->json(['dark_mode' => !$darkMode]);
-})->name('toggle-dark-mode');
-
-
 // //Admin dashboard Route
 // Route::middleware('auth')->group(function () {
 //     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -211,3 +204,6 @@ Route::get('/admin', function () {
     return view('admin.admin-login');
 })->name('admin.login');
 Route::post('/admin', [AdminController::class, 'login'])->name('admin.login');
+
+// Define the route to submit reviews
+Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');

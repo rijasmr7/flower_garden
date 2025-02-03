@@ -41,10 +41,6 @@ class Customer extends Model
         return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 
-    public function carts(){
-        return $this->hasOne(MyCart::class);
-    }
-
     public function gardenings()
     {
         return $this->hasMany(Gardening::class, 'customer_id', 'id');

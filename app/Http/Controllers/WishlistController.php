@@ -14,7 +14,7 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $wishlists = Wishlist::with('customer')->paginate(10);
+        $wishlists = Wishlist::with('user')->paginate(10);
         return response()->json(WishlistResource::collection($wishlists));
     }
 
@@ -51,7 +51,7 @@ class WishlistController extends Controller
      */
     public function show(string $id)
     {
-        $wishlist = Wishlist::with('customer')->findOrFail($id);
+        $wishlist = Wishlist::with('user')->findOrFail($id);
         return response()->json(new WishlistResource($wishlist));
     }
 

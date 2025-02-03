@@ -28,9 +28,6 @@ class CustomerResource extends JsonResource
                 'postal_code' => $this->postal_code,
             ],
             'orders' => OrderResource::collection($this->whenLoaded('orders')), 
-            'inquiries' => InquiryResource::collection($this->whenLoaded('inquiries')),
-            'cart' => new MyCartResource($this->whenLoaded('carts')),
-            'wishlists' => WishlistResource::collection($this->whenLoaded('wishlists')),
             'gardenings' => GardeningResource::collection($this->whenLoaded('gardenings')),
         ];
     }

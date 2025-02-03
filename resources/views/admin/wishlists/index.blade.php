@@ -32,30 +32,31 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($wishlists as $wishlist)
-            <tr>
-                <td class="border border-gray-200 p-2">{{$wishlist->id }}</td>
-                <td class="border border-gray-200 p-2">{{$wishlist->user_id }}</td>
-                <td class="border border-gray-200 p-2">{{$wishlist->customer_name }}</td>
-                <td class="border border-gray-200 p-2">{{$wishlist->phone }}</td>
-                <td class="border border-gray-200 p-2">{{$wishlist->product_name }}</td>
-                <td class="border border-gray-200 p-2">{{$wishlist->product_specification }}</td>
-                <td class="border border-gray-200 p-2">
-            @if ($wishlist->image)
-                <img src="{{ asset('storage/' . $wishlist->image) }}" alt="{{ $wishlist->product_name }}" width="100">
-            @else
-                No image
-            @endif
-                </td>
-                <td class="border border-gray-200 p-2">
-                    <form action="{{ route('admin.wishlists.destroy', $wishlist->id) }}" method="POST" onsubmit="return confirm('Are you sure?');" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
+        @foreach ($firebaseWishlists as $wishlistId => $wishlist)
+<tr>
+    <td class="border border-gray-200 p-2">{{ $wishlistId }}</td> <!-- Firebase Key as ID -->
+    <td class="border border-gray-200 p-2">{{ $wishlist['user_id'] ?? 'N/A' }}</td>
+    <td class="border border-gray-200 p-2">{{ $wishlist['customer_name'] ?? 'N/A' }}</td>
+    <td class="border border-gray-200 p-2">{{ $wishlist['phone'] ?? 'N/A' }}</td>
+    <td class="border border-gray-200 p-2">{{ $wishlist['product_name'] ?? 'N/A' }}</td>
+    <td class="border border-gray-200 p-2">{{ $wishlist['product_specification'] ?? 'N/A' }}</td>
+    <td class="border border-gray-200 p-2">
+        @if (!empty($wishlist['image']))
+            <img src="{{ asset('storage/' . $wishlist['image']) }}" alt="{{ $wishlist['product_name'] }}" width="100">
+        @else
+            No image
+        @endif
+    </td>
+    <td class="border border-gray-200 p-2">
+        <form action="{{ route('admin.wishlists.destroy', $wishlistId) }}" method="POST" onsubmit="return confirm('Are you sure?');" style="display:inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Delete</button>
+        </form>
+    </td>
+</tr>
+@endforeach
+
         </tbody>
     </table>
 </div>

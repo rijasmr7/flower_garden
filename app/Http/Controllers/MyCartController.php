@@ -14,7 +14,7 @@ class MyCartController extends Controller
      */
     public function index()
     {
-        $cartItems = MyCart::with(['customer', 'cartable'])->paginate(10);
+        $cartItems = MyCart::with(['user', 'cartable'])->paginate(10);
         return response()->json(MyCartResource::collection($cartItems));
     }
 
@@ -24,7 +24,7 @@ class MyCartController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'customer_id' => 'required|exists:customers,id',
+            'user_id' => 'required|exists:customers,id',
             'cartable_type' => 'required|string',
             'cartable_id' => 'required|integer',
         ]);
@@ -42,7 +42,7 @@ class MyCartController extends Controller
      */
     public function show(string $id)
     {
-        $cartItem = MyCart::with(['customer', 'cartable'])->findOrFail($id);
+        $cartItem = MyCart::with(['user', 'cartable'])->findOrFail($id);
         return response()->json(new MyCartResource($cartItem));
     }
 

@@ -14,7 +14,7 @@ class InquiryController extends Controller
      */
     public function index()
     {
-        $inquiries = Inquiry::with(['customer'])->paginate(10);
+        $inquiries = Inquiry::with(['user'])->paginate(10);
         return response()->json(InquiryResource::collection($inquiries));
     }
 
@@ -24,7 +24,7 @@ class InquiryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'customer_id' => 'required|exists:customers,id',
+            'user_id' => 'required|exists:customers,id',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:255',
@@ -44,7 +44,7 @@ class InquiryController extends Controller
      */
     public function show(string $id)
     {
-        $inquiry = Inquiry::with(['customer'])->findOrFail($id);
+        $inquiry = Inquiry::with(['user'])->findOrFail($id);
         return response()->json(new InquiryResource($inquiry));
     }
 

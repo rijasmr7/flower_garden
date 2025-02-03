@@ -16,7 +16,7 @@ class MyCartResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'customer' => new CustomerResource($this->whenLoaded('customer')),
+            'user' => new UserResource($this->whenLoaded('user')),
             'cartable_type' => $this->cartable_type,
             'cartable_id' => $this->cartable_id,
             'cartable' => $this->whenLoaded('cartable', function () {

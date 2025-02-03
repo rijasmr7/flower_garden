@@ -15,7 +15,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::with(['user', 'orders', 'inquiries', 'carts', 'wishlists', 'gardenings'])->paginate(10);
+        $customers = Customer::with(['user', 'orders', 'gardenings'])->paginate(10);
 
         return response()->json(CustomerResource::collection($customers));
     }
@@ -51,7 +51,7 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        $customer = Customer::with(['user', 'orders', 'inquiries', 'carts', 'wishlists', 'gardenings'])
+        $customer = Customer::with(['user', 'orders','gardenings'])
         ->findOrFail($id);
 
         return response()->json(new CustomerResource($customer));

@@ -20,8 +20,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('inquiries', inquiryController::class);
     Route::apiResource('carts', MyCartController::class);
     Route::apiResource('orders', OrderController::class);
-   
-    Route::apiResource('pots', PotController::class);
     Route::apiResource('reviews', ReviewController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('wishlists', WishlistController::class);
