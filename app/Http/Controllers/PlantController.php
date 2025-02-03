@@ -14,7 +14,7 @@ class PlantController extends Controller
      */
     public function index()
     {
-        $plants = Plant::with(['orders', 'carts'])->paginate(10);
+        $plants = Plant::with(['orders', 'carts'])->paginate(50);
         return response()->json(PlantResource::collection($plants));
     }
 

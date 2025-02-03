@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Front;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 
 class WishlistController extends Controller
 {
@@ -57,7 +59,7 @@ class WishlistController extends Controller
 
     public function destroy(Wishlist $wishlist) {
         if ($wishlist->image) {
-            Storage::delete('public/' . $wishlist->image); // Remove image
+            Storage::delete('public/' . $wishlist->image); 
         }
 
         $wishlist->delete();

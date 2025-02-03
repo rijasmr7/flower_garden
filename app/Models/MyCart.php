@@ -12,18 +12,19 @@ class MyCart extends Model
     protected $table = 'carts';
 
     protected $fillable = [
-        'customer_id',
+        'user_id',
         'cartable_type',
         'cartable_id',
     ];
 
-    public function customer()
+    public function user()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
    public function cartable()
    {
      return $this->morphTo();
    }
+
 }

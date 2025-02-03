@@ -21,7 +21,7 @@ class Plant extends Model
 
 public function carts()
 {
-    return $this->morphMany(MyCart:: class, 'cartable');
+    return $this->morphMany(MyCart::class, 'cartable');
 }
 }
 

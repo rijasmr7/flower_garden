@@ -22,6 +22,6 @@ class UserMiddleware
       }
 
       // Redirect to the user login page if not a user
-      return redirect()->route('user.login')->with('error', 'Unauthorized access.');
+      return redirect()->route('auth.login')->with('error', 'Unauthorized access.');
     }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
 use App\Models\Gardening;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 class GardeningController extends Controller
 {
     public function showForm()
@@ -23,11 +25,25 @@ class GardeningController extends Controller
         ]);
 
         
-        $userId = Auth::id();
+        $user = Auth::user();
 
+        $customer = Customer::firstOrCreate(
+            ['user_id' => $user->id], 
+            [
+                'first_name' => $user->name,
+                'last_name' => $user->name,
+                'email' => $user->email, 
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'city' => $user->city?? '',
+                'province' => $user->province?? '',
+                'district' => $user->district?? '',
+                'postal_code' => $user->postal_code?? '',
+            ]
+        );
         // Create a new Gardening record
-        $gardening = Gardening::create([
-            'user_id' => $userId,
+        Gardening::create([
+            'customer_id' => $customer->id,
             'customer_name' => $request->customer_name,
             'phone' => $request->phone,
             'address' => $request->address,

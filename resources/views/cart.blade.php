@@ -12,24 +12,20 @@
         <div class="space-y-6">
             @foreach ($cartItems as $item)
                 <div class="flex space-x-4 border-b pb-4">
-                    @if ($item->plant)
-                        <img src="{{ asset('storage/' . $item->plant->image) }}" alt="{{ $item->plant->name }}" class="h-32 w-32 object-cover rounded-lg">
-                        <div>
-                            <h2 class="text-xl font-semibold">{{ $item->plant->name }}</h2>
-                            <p class="text-gray-600">Rs. {{ $item->plant->price }}</p>
-                        </div>
-                    @else
-                        <p></p>
-                    @endif
-
-                    @if ($item->pot)
-                        <img src="{{ asset('storage/' . $item->pot->image) }}" alt="{{ $item->pot->name }}" class="h-32 w-32 object-cover rounded-lg">
-                        <div>
-                            <h2 class="text-xl font-semibold">{{ $item->pot->name }}</h2>
-                            <p class="text-gray-600">Rs. {{ $item->pot->price }}</p>
-                        </div>
-                    @else
-                        <p></p>
+                    @if ($item->cartable)
+                        @if ($item->cartable_type == App\Models\Plant::class)
+                            <img src="{{ asset('storage/' . $item->cartable->image) }}" alt="{{ $item->cartable->name }}" class="h-32 w-32 object-cover rounded-lg">
+                            <div>
+                                <h2 class="text-xl font-semibold">{{ $item->cartable->name }}</h2>
+                                <p class="text-gray-600">Rs. {{ $item->cartable->price }}</p>
+                            </div>
+                        @elseif ($item->cartable_type == App\Models\Pot::class)
+                            <img src="{{ asset('storage/' . $item->cartable->image) }}" alt="{{ $item->cartable->name }}" class="h-32 w-32 object-cover rounded-lg">
+                            <div>
+                                <h2 class="text-xl font-semibold">{{ $item->cartable->name }}</h2>
+                                <p class="text-gray-600">Rs. {{ $item->cartable->price }}</p>
+                            </div>
+                        @endif
                     @endif
 
                     <!-- Remove button -->

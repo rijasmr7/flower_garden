@@ -92,14 +92,12 @@ class PlantController extends Controller
 
     //for users page
     public function showPlants() {
-        $indoorPlants = Plant::where('category', 'indoor')->get();
-        $outdoorPlants = Plant::where('category', 'outdoor')->get();
-        
-        return view('plants', compact('indoorPlants', 'outdoorPlants'));
+        $plants = Plant::all();
+        return view('plants', compact('plants'));
     }
     
     public function showDetail($id){
-    $plant = Plant::find($id);
+    $plant = Plant::findOrFail($id);
 
     if (!$plant) {
         return redirect()->route('plants')->with('error', 'Plant not found.');

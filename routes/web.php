@@ -22,13 +22,14 @@ use App\Http\Controllers\Front\TextusController;
 use App\Http\Controllers\Front\Controller;
 use App\Livewire\AdminLogin;
 use App\Livewire\UserLogin;
+use App\Http\Middleware\AdminMiddleware;
 
-Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
+// Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register.form');
+// Route::post('/register', [RegisterController::class, 'register'])->name('register');
 Route::get('/home', [PageController::class, 'home'])->name('home'); 
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+// Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+// Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 
 Route::get('/', function () {
@@ -66,27 +67,36 @@ Route::middleware([
     })->name('dashboard');
 });
 
-// Admin login route
-Route::get('/admin/login', AdminLogin::class)->name('admin.login');
+// // Admin login route
+// Route::get('/admin/login', AdminLogin::class)->name('admin.login');
 
-// User login route
-// Route::get('/login', UserLogin::class)->name('user.login');
+// // User login route
+// // Route::get('/login', UserLogin::class)->name('user.login');
 
-Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+// Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 Route::post('/logout', function () {
     Auth::logout();
     return redirect('/home');
 })->name('logout');
 
+Route::post('/adminLogout', function () {
+    Auth::logout();
+    return redirect('/admin');
+})->name('adminLogout');
+
 
 
 //admin dashboard
-Route::get('/admin', function () {
-    return view('admin_dash'); 
-});
+// Route::get('/admin', function () {
+//     return view('admin_dash'); 
+// });
+Route::middleware([AdminMiddleware::class])->group(function () {
+    Route::get('/admin_dash', function () {
+        return view('admin_dash');
+    })->name('admin_dash');
 
-//Admin-users
+    //Admin-users
 Route::prefix('admin')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
@@ -115,13 +125,15 @@ Route::prefix('admin')->group(function() {
     Route::delete('pots/{pot}', [PotController::class, 'destroy'])->name('admin.pots.destroy');
 });
 
+
+});
 //for users
 
 Route::get('/plants', [PlantController::class, 'showPlants'])->name('plants');
-Route::get('/plants/{plant}', [PlantController::class, 'showDetail'])->name('plants.show');
+Route::get('/plants/{id}', [PlantController::class, 'showDetail'])->name('web.plants.show');
 
 Route::get('/pots', [PotController::class, 'showPots'])->name('pots');
-Route::get('/pots/{pot}', [PotController::class, 'showDetail'])->name('pots.show');
+Route::get('/pots/{pot}', [PotController::class, 'showDetail'])->name('web.pots.show');
 
 //Add to cart
 
@@ -169,6 +181,10 @@ Route::post('/textus/send', [TextusController::class, 'send'])->name('textus.sen
 //Text us-admin routes
 Route::get('inquiries', [TextusController::class, 'view'])->name('admin.inquiries.index');
 Route::delete('inquiries/{inquiry}', [TextusController::class, 'destroy'])->name('admin.inquiries.destroy');
+    
+
+
+
 
 Route::post('/toggle-dark-mode', function (Request $request) {
     $darkMode = $request->session()->get('dark_mode', false);
@@ -177,17 +193,21 @@ Route::post('/toggle-dark-mode', function (Request $request) {
 })->name('toggle-dark-mode');
 
 
-//Admin dashboard Route
-Route::middleware('auth')->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-});
+// //Admin dashboard Route
+// Route::middleware('auth')->group(function () {
+//     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+// });
 
-//Admin login route
-Route::middleware('guest')->group(function () {
-    Route::get('/admin/login', [AdminLoginController::class, 'create'])->name('admin.login');
-    Route::post('/admin/login', [AdminLoginController::class, 'store']);
-});
+// //Admin login route
+// Route::middleware('guest')->group(function () {
+//     Route::get('/admin/login', [AdminLoginController::class, 'create'])->name('admin.login');
+//     Route::post('/admin/login', [AdminLoginController::class, 'store']);
+// });
 
-//Admin logout route
-Route::post('/admin/logout', [AdminLoginController::class, 'destroy'])->name('admin.logout');
+// //Admin logout route
+// Route::post('/admin/logout', [AdminLoginController::class, 'destroy'])->name('admin.logout');
 
+Route::get('/admin', function () {
+    return view('admin.admin-login');
+})->name('admin.login');
+Route::post('/admin', [AdminController::class, 'login'])->name('admin.login');

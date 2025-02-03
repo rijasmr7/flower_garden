@@ -7,11 +7,12 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100">
-    <div class="min-h-screen flex flex-col">
-        <!-- Admin Sidebar -->
-        @include('admin.sidebar')
+<div class="flex min-h-screen">
+        <div class="w-1/4 min-h-screen">
+            @include('admin.sidebar')
+        </div>
 
-<div class="container mx-auto mt-5">
+        <div class="w-3/4 p-6">
     <h2 class="text-2xl font-bold">Manage wishlists</h2><br><br>
 
     

@@ -24,7 +24,7 @@ class WishlistController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'customer_id' => 'required|exists:customers,id',
+            'user_id' => 'required|exists:customers,id',
             'customer_name' => 'required|string|max:255',
             'phone' => 'required|string|max:15',
             'product_name' => 'required|string|max:255',

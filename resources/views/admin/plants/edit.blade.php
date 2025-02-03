@@ -7,9 +7,12 @@
     @vite('resources/css/app.css')
 </head>
 <body class="bg-gray-100">
-    <div class="min-h-screen flex flex-col">
-        <!-- Admin Sidebar -->
-        @include('admin.sidebar')
+<div class="flex min-h-screen">
+        <div class="w-1/4 min-h-screen">
+            @include('admin.sidebar')
+        </div>
+
+        <div class="w-3/4 p-6">
 <h1 class="text-2xl font-bold mb-4">Edit Plant</h1>
 
 <form action="{{ route('admin.plants.update', $plant->id) }}" method="POST" enctype="multipart/form-data">

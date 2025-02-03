@@ -37,21 +37,16 @@ class OrderController extends Controller
         return redirect()->route('login')->with('message', 'Please login to view your orders.');
     }
 
-    
     $userId = Auth::id();
 
-    
     $orders = Order::whereHas('customer', function ($query) use ($userId) {
         $query->where('user_id', $userId);
-    })->with('plant', 'pot')->get(); 
-
+    })->with('orderable')->get();
     return view('my_orders', compact('orders'));
 }
 
-    
-    public function processOrder(Request $request)
-    {
-        
+public function processOrder(Request $request)
+{
     $validatedData = $request->validate([
         'first_name' => 'required|string|max:255',
         'last_name' => 'required|string|max:255',
@@ -61,62 +56,70 @@ class OrderController extends Controller
         'province' => 'required|string|max:255',
         'district' => 'required|string|max:255',
         'postal_code' => 'required|string|max:10',
-        'quantity' => 'required|integer|min:1', // Quantity from the form
-        'plant_id' => 'nullable|exists:plant,id', // Plant ID is nullable
-        'pot_id' => 'nullable|exists:pot,id', // Pot ID is nullable
+        'quantity' => 'required|integer|min:1',
+        'plant_id' => 'nullable|exists:plants,id',  // Corrected validation for 'plants'
+        'pot_id' => 'nullable|exists:pots,id',      // Corrected validation for 'pots'
     ]);
 
-    
     $userId = Auth::id();
 
-    
+    // Check if the customer exists or create a new one
     $customer = Customer::where('user_id', $userId)->first();
 
     if ($customer) {
-        
         $customer->update($validatedData);
     } else {
-        // Create a new customer
         $customer = Customer::create(array_merge($validatedData, ['user_id' => $userId]));
     }
 
-    
+    // Calculate total amount
     $totalAmount = 0;
     $unitPrice = null;
 
-    
+    $orderableType = null;
+    $orderableId = null;
+
+    // Handle plant selection
     if ($validatedData['plant_id']) {
         $plant = Plant::findOrFail($validatedData['plant_id']);
         $unitPrice = $plant->price;
-        $totalAmount += $unitPrice * $validatedData['quantity']; 
+        $totalAmount += $unitPrice * $validatedData['quantity'];
+
+        // Set polymorphic relationship details for plant
+        $orderableType = Plant::class;
+        $orderableId = $plant->id;
     }
 
-    
+    // Handle pot selection
     if ($validatedData['pot_id']) {
         $pot = Pot::findOrFail($validatedData['pot_id']);
         $potUnitPrice = $pot->price;
-        $totalAmount += $potUnitPrice * $validatedData['quantity']; 
-        
-        
+        $totalAmount += $potUnitPrice * $validatedData['quantity'];
+
+        // Set polymorphic relationship details for pot
+        $orderableType = Pot::class;
+        $orderableId = $pot->id;
+
         $unitPrice = $potUnitPrice;
     }
 
-    // Create a new order record
+    // Create a new order
     $order = Order::create([
-        'customer_id' => $customer->id, 
-        'plant_id' => $validatedData['plant_id'], 
-        'pot_id' => $validatedData['pot_id'], 
-        'ordered_date' => now(), 
-        'delivery_date' => now()->addDays(14), 
-        'unit_price' => $unitPrice, 
+        'customer_id' => $customer->id,
+        'orderable_type' => $orderableType,  // Store the type (plant or pot)
+        'orderable_id' => $orderableId,      // Store the ID of the related model
+        'ordered_date' => now(),
+        'delivery_date' => now()->addDays(14),
+        'unit_price' => $unitPrice,
         'quantity' => $validatedData['quantity'],
         'total_amount' => $totalAmount,
     ]);
 
-    // Redirect to payment page after order is placed successfully
-    return redirect()->route('payment.show', ['order' => $order->id])->with('message', 'Order placed successfully. Please complete your payment.');
-        
-    }
+    // Redirect to payment page
+    return redirect()->route('payment.show', ['order' => $order->id])
+        ->with('message', 'Order placed successfully. Please complete your payment.');
+}
+
 
     //for admin
     public function view() {

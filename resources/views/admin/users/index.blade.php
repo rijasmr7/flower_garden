@@ -14,13 +14,13 @@
     </script>
 </head>
 <body class="bg-gray-100">
-    <div class="min-h-screen flex flex-col">
-        <!-- Admin Sidebar -->
-        @include('admin.sidebar')
+<div class="flex min-h-screen">
+        <div class="w-1/4 min-h-screen">
+            @include('admin.sidebar')
+        </div>
 
-        <!-- Main Content -->
-        <main class="flex-1 bg-white p-6">
-            <h1 class="text-3xl font-bold mb-6">Users</h1>
+        <div class="w-3/4 p-6">
+            <h1 class="text-3xl font-bold mb-6">Manage users</h1>
 
 
             <div class="mb-6">

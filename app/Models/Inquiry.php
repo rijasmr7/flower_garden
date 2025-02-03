@@ -13,7 +13,7 @@ class Inquiry extends Model
 
     
     protected $fillable = [
-        'customer_id',
+        'user_id',
         'name',
         'phone',
         'address',
@@ -21,8 +21,8 @@ class Inquiry extends Model
         'replies'
     ];
 
-    public function customer()
+    public function user()
     {
-        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

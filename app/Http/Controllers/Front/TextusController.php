@@ -23,11 +23,11 @@ class TextusController extends Controller
         ]);
 
         
-        $userId = Auth::id();
+        $user = Auth::user();
 
         // Create a new inquiry entry in the database
         Inquiry::create([
-            'user_id' => $userId,
+            'user_id' => $user->id,
             'name' => $request->input('name'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),

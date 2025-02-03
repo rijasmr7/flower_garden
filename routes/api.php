@@ -27,6 +27,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::apiResource('wishlists', WishlistController::class);
 });
 Route::apiResource('plants', PlantController::class);
-
+Route::apiResource('pots', PotController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');

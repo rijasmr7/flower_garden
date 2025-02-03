@@ -41,17 +41,8 @@ class Customer extends Model
         return $this->hasMany(Order::class, 'customer_id', 'id');
     }
 
-    public function inquiries()
-    {
-        return $this->hasMany(Inquiry::class, 'customer_id', 'id');
-    }
-
     public function carts(){
         return $this->hasOne(MyCart::class);
-    }
-
-    public function wishlists(){
-        return $this->hasMany(Wishlist::class, 'customer_id', 'id');
     }
 
     public function gardenings()
